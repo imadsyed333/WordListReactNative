@@ -5342,6 +5342,11 @@ react-is@^16.13.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-bootstrap-icons@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-bootstrap-icons/-/react-native-bootstrap-icons-1.5.0.tgz#2cc050aff24365c256a3f4460fb7efc431fbd2c4"
+  integrity sha512-yi1qTE4/nrGJMeoJAmKNMLSfjrp5OIkl9l6xy2d7+can9RrrNRT5wt3E7yY0Oh+QdWs0BuuiOx1VPMliKVU8Lw==
+
 react-native-codegen@^0.0.17:
   version "0.0.17"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.0.17.tgz"
