@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 export function Word(props) {
   return (
-    <View style={[styles.container, { backgroundColor: "#0EB1D2" }]}>
+    <View style={[styles.container, { backgroundColor: "#07A0C3" }]}>
       <Text style={styles.name}>{props.name}</Text>
       <Text style={styles.word}>{props.type}</Text>
       <Text style={styles.word}>{props.meaning}</Text>
@@ -16,15 +16,19 @@ export function HiddenWord(props) {
     <View
       style={[
         styles.container,
-        { backgroundColor: "red" },
+        { backgroundColor: "#DE3C4B" },
         { alignItems: "flex-end" },
       ]}
     >
-      <Text onPress={() => props.onDelete(props.id)} style={styles.button}>
-        Delete
+      <Text
+        onPress={() => props.onDelete(props.id)}
+        style={styles.delete_button}
+      >
+        U+F78B
       </Text>
     </View>
   );
+  s;
 }
 
 const styles = StyleSheet.create({
@@ -53,9 +57,9 @@ const styles = StyleSheet.create({
     color: "#303030",
     fontSize: 30,
   },
-  button: {
+  delete_button: {
     flex: 1,
     color: "black",
-    backgroundColor: "maroon",
   },
+  edit_button: {},
 });
