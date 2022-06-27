@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import React, { Component } from "react";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 export function Word(props) {
   return (
@@ -17,15 +18,26 @@ export function HiddenWord(props) {
       style={[
         styles.container,
         { backgroundColor: "#DE3C4B" },
-        { alignItems: "flex-end" },
+        { alignItems: "flex-end", justifyContent: "center" },
       ]}
     >
-      <Text
-        onPress={() => props.onDelete(props.id)}
-        style={styles.delete_button}
-      >
-        U+F78B
-      </Text>
+      <View>
+        <FontAwesome
+          name="trash-o"
+          size={40}
+          color="black"
+          onPress={() => props.onDelete(props.id)}
+          style={styles.delete_button}
+        />
+      </View>
+      <View>
+        <Entypo
+          name="pencil"
+          size={40}
+          color="black"
+          onPress={() => props.onEdit(props.id)}
+        />
+      </View>
     </View>
   );
   s;
@@ -58,8 +70,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   delete_button: {
-    flex: 1,
-    color: "black",
+    paddingEnd: 5,
+    borderRadius: 10,
+    alignSelf: "flex-end",
   },
   edit_button: {},
 });
