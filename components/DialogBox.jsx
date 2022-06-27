@@ -19,6 +19,7 @@ export default function DialogBox(props) {
       })
       .catch((error) => {
         console.log(error);
+        alert("Name field is empty, or the word does not exist");
       });
   };
 
