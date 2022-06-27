@@ -1,36 +1,24 @@
 import React, { Component, useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput, Modal } from "react-native";
-import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolicateStackTrace";
 
 export default function DialogBox(props) {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [meaning, setMeaning] = useState("");
-
-  const setWord = () => {
-    props.handleAdd(name, type, meaning);
-    setName("");
-    setMeaning("");
-    setType("");
-  };
-
   const onCancel = () => {
-    setName("");
-    setMeaning("");
-    setType("");
+    props.setName("");
+    props.setMeaning("");
+    props.setType("");
     props.handleCancel();
   };
 
   const getDefinition = () => {
-    let url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + name;
+    let url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + props.name;
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         const newMeaning = json[0].meanings[0].definitions[0].definition;
-        setMeaning(newMeaning);
+        props.setMeaning(newMeaning);
       })
       .catch((error) => {
-        alert("name field is empty or official meaning does not exist");
+        console.log(error);
       });
   };
 
@@ -44,29 +32,29 @@ export default function DialogBox(props) {
       <View style={styles.container}>
         <TextInput
           placeholder="enter name of entry"
-          onChangeText={setName}
-          value={name}
+          onChangeText={props.setName}
+          value={props.name}
           style={styles.input}
           placeholderTextColor="gray"
         />
         <TextInput
           placeholder="enter type of entry"
-          onChangeText={setType}
-          value={type}
+          onChangeText={props.setType}
+          value={props.type}
           style={styles.input}
           placeholderTextColor="gray"
         />
         <TextInput
           placeholder="enter meaning of entry"
-          onChangeText={setMeaning}
-          value={meaning}
+          onChangeText={props.setMeaning}
+          value={props.meaning}
           style={styles.input}
           multiline={true}
           placeholderTextColor="gray"
         />
-        <Button title="get official definition" onPress={getDefinition} />
+        <Button title="Get Official Definition" onPress={getDefinition} />
         <Button title="Cancel" onPress={onCancel} />
-        <Button title="Add Word" onPress={setWord} />
+        <Button title={props.dialogFunction} onPress={props.handleAction} />
       </View>
     </Modal>
   );
