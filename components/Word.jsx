@@ -17,24 +17,21 @@ export function HiddenWord(props) {
     <View
       style={[
         styles.container,
-        { backgroundColor: "#DE3C4B" },
+        { backgroundColor: "#303030" },
         { alignItems: "flex-end", justifyContent: "center" },
       ]}
     >
-      <View>
+      <View style={{ borderRadius: 10 }}>
         <FontAwesome
           name="trash-o"
           size={40}
-          color="black"
+          color="#DE3C4B"
           onPress={() => props.onDelete(props.id)}
-          style={styles.delete_button}
         />
-      </View>
-      <View>
         <Entypo
           name="pencil"
           size={40}
-          color="black"
+          color="#FBF2C0"
           onPress={() => props.onEdit(props.id)}
         />
       </View>
@@ -70,9 +67,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   delete_button: {
-    paddingEnd: 5,
+    margin: 5,
     borderRadius: 10,
-    alignSelf: "flex-end",
+    alignSelf: "center",
   },
   edit_button: {},
 });

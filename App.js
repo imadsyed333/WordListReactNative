@@ -122,7 +122,7 @@ export default function App() {
       <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
       <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
       <TouchableOpacity style={styles.button} onPress={handleAddPress}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', color: '#303030'}}>+</Text>
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
       </TouchableOpacity>
       <DialogBox visible={visible} handleAction={handleDialogFunction} handleCancel={onCancel} name={name} type={type} meaning={meaning} setName={setName} setType={setType} setMeaning={setMeaning} dialogFunction={dialogFunction}/>
     </SafeAreaView>
