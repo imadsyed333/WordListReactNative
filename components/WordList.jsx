@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Word, HiddenWord } from "./Word";
 
@@ -21,7 +12,11 @@ export default function WordList(props) {
         <Word name={item.name} type={item.type} meaning={item.meaning} />
       )}
       renderHiddenItem={({ item }) => (
-        <HiddenWord id={item.id} onDelete={props.onDelete}></HiddenWord>
+        <HiddenWord
+          id={item.id}
+          onDelete={props.onDelete}
+          onEdit={props.onEdit}
+        ></HiddenWord>
       )}
       disableRightSwipe
       rightOpenValue={-75}
