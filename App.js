@@ -4,6 +4,11 @@ import DialogBox from './components/DialogBox';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
+import * as DocumentPicker from 'expo-document-picker'
+import * as FileSystem from 'expo-file-system'
+import * as MediaLibrary from 'expo-media-library'
+import * as Permissions from 'expo-permissions'
+import * as Sharing from 'expo-sharing'
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -23,7 +28,7 @@ export default function App() {
     try {
       const jsonValue = await AsyncStorage.getItem("wordlist")
       if (jsonValue !== null) {
-        newWords = JSON.parse(jsonValue)
+        const newWords = JSON.parse(jsonValue)
         setWords(newWords)
         setTempWords(newWords)
       }
@@ -112,6 +117,27 @@ export default function App() {
     }
   }
 
+  const importWords = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync()
+      const file = await FileSystem.readAsStringAsync(result.uri)
+      const importedWords = JSON.parse(file)
+      const newWords = [...words, ...importedWords]
+      const uniqueWords = [...new Map(newWords.map((item) => [item.id, item])).values()]
+      saveWords(uniqueWords)
+      setWords(uniqueWords)
+      setTempWords(uniqueWords)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const exportWords = async () => {
+    let fileUrI = FileSystem.documentDirectory + "words.json"
+    await FileSystem.writeAsStringAsync(fileUrI, JSON.stringify(words))
+    await Sharing.shareAsync(fileUrI)
+  }
+
   useEffect(() => {
     retrieveWords()
   }, [])
@@ -119,10 +145,12 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>WordList</Text>
+      <Button title="Import Words" onPress={() => importWords()}/>
+      <Button title="Export Words" onPress={exportWords}/>
       <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
       <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
       <TouchableOpacity style={styles.button} onPress={handleAddPress}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
+        <Text style={{fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
       </TouchableOpacity>
       <DialogBox visible={visible} handleAction={handleDialogFunction} handleCancel={onCancel} name={name} type={type} meaning={meaning} setName={setName} setType={setType} setMeaning={setMeaning} dialogFunction={dialogFunction}/>
     </SafeAreaView>
