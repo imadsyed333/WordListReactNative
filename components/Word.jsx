@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import React, { Component } from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
-export function Word(props) {
+const Word = React.memo(function Word(props) {
   return (
     <View style={[styles.container, { backgroundColor: "#07A0C3" }]}>
       <Text style={styles.name}>{props.name}</Text>
@@ -10,9 +10,9 @@ export function Word(props) {
       <Text style={styles.word}>{props.meaning}</Text>
     </View>
   );
-}
+});
 
-export function HiddenWord(props) {
+const HiddenWord = React.memo(function HiddenWord(props) {
   return (
     <View
       style={[
@@ -37,8 +37,9 @@ export function HiddenWord(props) {
       </View>
     </View>
   );
-  s;
-}
+});
+
+export { Word, HiddenWord };
 
 const styles = StyleSheet.create({
   container: {
