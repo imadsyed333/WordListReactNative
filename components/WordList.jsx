@@ -20,6 +20,7 @@ export default function WordList(props) {
       )}
       disableRightSwipe
       rightOpenValue={-75}
+      recalculateHiddenLayout={true}
     />
   );
 }
