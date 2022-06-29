@@ -7,7 +7,7 @@ import uuid from 'react-native-uuid'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
-import {Feather} from '@expo/vector-icons'
+import {Feather, Entypo} from '@expo/vector-icons'
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -37,11 +37,8 @@ export default function App() {
   }
 
   const onAdd = () => {
-    if (currId === "") {
-      setCurrId(uuid.v4())
-    }
     const word = {
-      id: currId, 
+      id: uuid.v4(), 
       name: name,
       type: type, 
       meaning: meaning,
@@ -55,7 +52,6 @@ export default function App() {
     setName("")
     setType("")
     setMeaning("")
-    setCurrId("")
   }
 
   const onCancel = () => {
@@ -66,6 +62,7 @@ export default function App() {
   }
 
   const handleAddPress = () => {
+      setCurrId("")
       setDialogFunction("Add Word")
       setVisible(true)
   }
@@ -97,20 +94,28 @@ export default function App() {
 
   const handleEdit = (id) => {
     setCurrId(id)
-    setVisible(true)
     const prevIndex = words.findIndex(item => item.id === id)
     const word = words[prevIndex]
     setName(word.name)
     setType(word.type)
     setMeaning(word.meaning)
     setDialogFunction("Update Word")
+    setVisible(true)
   }
 
   const editWord = () => {
+    const newWords = [...words]
     const prevIndex = words.findIndex(item => item.id === currId)
-    words.splice(prevIndex, 1)
-    tempWords.splice(prevIndex, 1)
-    onAdd()
+    newWords[prevIndex].name = name
+    newWords[prevIndex].type = type
+    newWords[prevIndex].meaning = meaning
+    setWords(newWords)
+    setTempWords(newWords)
+    saveWords(newWords)
+    setName("")
+    setType("")
+    setMeaning("")
+    setVisible(false)
   }
 
   const handleDialogFunction = () => {
@@ -157,15 +162,17 @@ export default function App() {
       <View style={{flexDirection:'row'}}>
         <Text style={styles.title}>WordList</Text>
         <View style={{flexDirection:'row', justifyContent:'space-around', position:'absolute', right: 10, top: 10}}>
-          <TouchableOpacity onPress={() => importWords()} style={{height: 40, width: 40, borderRadius: 10, alignContent:'center', justifyContent: 'center', marginRight: 10}}>
+          <TouchableOpacity onPress={() => importWords()} style={styles.command}>
             <Feather name="arrow-down-left" size={40} color="#3C91E6" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={exportWords} style={{height: 40, width: 40, borderRadius: 10, alignContent:'center', justifyContent: 'center'}}>
+          <TouchableOpacity onPress={exportWords} style={styles.command}>
             <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={clearWords} style={styles.command}>
+            <Entypo name="cross" size={40} color="#DE3C4B" />
           </TouchableOpacity>
         </View>
       </View>
-      <Button title="Clear Words" onPress={clearWords}/>
       <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
       <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
       <TouchableOpacity style={styles.button} onPress={handleAddPress}>
@@ -209,8 +216,16 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 20,
     borderRadius: 10,
+    margin:10,
   },
   list: {
     alignSelf: 'stretch',
+  },
+  command: {
+    height: 40, 
+    width: 40, 
+    borderRadius: 10, 
+    alignContent:'center', 
+    justifyContent: 'center'
   }
 });
