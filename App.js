@@ -6,8 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
-import * as MediaLibrary from 'expo-media-library'
-import * as Permissions from 'expo-permissions'
 import * as Sharing from 'expo-sharing'
 
 export default function App() {
@@ -129,6 +127,7 @@ export default function App() {
       const importedWords = JSON.parse(file)
       const newWords = [...words, ...importedWords]
       const uniqueWords = [...new Map(newWords.map((item) => [item.id, item])).values()]
+      uniqueWords.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
       saveWords(uniqueWords)
       setWords(uniqueWords)
       setTempWords(uniqueWords)
@@ -143,6 +142,11 @@ export default function App() {
     await Sharing.shareAsync(fileUrI)
   }
 
+  const clearWords = () => {
+    setWords([])
+    setTempWords([])
+  }
+
   useEffect(() => {
     retrieveWords()
   }, [])
@@ -152,6 +156,7 @@ export default function App() {
       <Text style={styles.title}>WordList</Text>
       <Button title="Import Words" onPress={() => importWords()}/>
       <Button title="Export Words" onPress={exportWords}/>
+      <Button title="Clear Words" onPress={clearWords}/>
       <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
       <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
       <TouchableOpacity style={styles.button} onPress={handleAddPress}>
