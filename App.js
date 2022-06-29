@@ -7,6 +7,7 @@ import uuid from 'react-native-uuid'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
+import {Feather} from '@expo/vector-icons'
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -153,9 +154,17 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>WordList</Text>
-      <Button title="Import Words" onPress={() => importWords()}/>
-      <Button title="Export Words" onPress={exportWords}/>
+      <View style={{flexDirection:'row'}}>
+        <Text style={styles.title}>WordList</Text>
+        <View style={{flexDirection:'row', justifyContent:'space-around', position:'absolute', right: 10, top: 10}}>
+          <TouchableOpacity onPress={() => importWords()} style={{height: 40, width: 40, borderRadius: 10, alignContent:'center', justifyContent: 'center', marginRight: 10}}>
+            <Feather name="arrow-down-left" size={40} color="#3C91E6" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={exportWords} style={{height: 40, width: 40, borderRadius: 10, alignContent:'center', justifyContent: 'center'}}>
+            <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
+          </TouchableOpacity>
+        </View>
+      </View>
       <Button title="Clear Words" onPress={clearWords}/>
       <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
       <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>

@@ -32,30 +32,38 @@ export default function DialogBox(props) {
     >
       <View style={styles.container}>
         <TextInput
-          placeholder="enter name of entry"
+          placeholder="Enter name of entry"
           onChangeText={props.setName}
           value={props.name}
           style={styles.input}
           placeholderTextColor="gray"
         />
         <TextInput
-          placeholder="enter type of entry"
+          placeholder="Enter type of entry"
           onChangeText={props.setType}
           value={props.type}
           style={styles.input}
           placeholderTextColor="gray"
         />
         <TextInput
-          placeholder="enter meaning of entry"
+          placeholder="Enter meaning of entry"
           onChangeText={props.setMeaning}
           value={props.meaning}
           style={styles.input}
           multiline={true}
           placeholderTextColor="gray"
         />
-        <Button title="Get Official Definition" onPress={getDefinition} />
-        <Button title="Cancel" onPress={onCancel} />
-        <Button title={props.dialogFunction} onPress={props.handleAction} />
+        <Button
+          title="Get Official Definition"
+          onPress={getDefinition}
+          style={styles.button}
+        />
+        <Button title="Cancel" onPress={onCancel} style={styles.button} />
+        <Button
+          title={props.dialogFunction}
+          onPress={props.handleAction}
+          style={styles.button}
+        />
       </View>
     </Modal>
   );
@@ -78,10 +86,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5.46,
     elevation: 9,
-    margin: 10,
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
   },
   input: {
     color: "#fff",
+    fontSize: 15,
+    margin: 10,
+    textDecorationLine: "underline",
+    textDecorationColor: "gray",
+  },
+  button: {
+    margin: 10,
   },
 });
