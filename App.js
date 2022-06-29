@@ -38,8 +38,11 @@ export default function App() {
   }
 
   const onAdd = () => {
+    if (currId === "") {
+      setCurrId(uuid.v4())
+    }
     const word = {
-      id: uuid.v4(), 
+      id: currId, 
       name: name,
       type: type, 
       meaning: meaning,
@@ -53,6 +56,7 @@ export default function App() {
     setName("")
     setType("")
     setMeaning("")
+    setCurrId("")
   }
 
   const onCancel = () => {
@@ -106,6 +110,7 @@ export default function App() {
   const editWord = () => {
     const prevIndex = words.findIndex(item => item.id === currId)
     words.splice(prevIndex, 1)
+    tempWords.splice(prevIndex, 1)
     onAdd()
   }
 
