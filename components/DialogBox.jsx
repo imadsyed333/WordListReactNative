@@ -1,5 +1,15 @@
 import React, { Component, useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Modal } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  Modal,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
+import { Entypo, Feather } from "@expo/vector-icons";
 
 export default function DialogBox(props) {
   const onCancel = () => {
@@ -53,17 +63,33 @@ export default function DialogBox(props) {
           multiline={true}
           placeholderTextColor="gray"
         />
-        <Button
-          title="Get Official Definition"
-          onPress={getDefinition}
-          style={styles.button}
-        />
-        <Button title="Cancel" onPress={onCancel} style={styles.button} />
-        <Button
-          title={props.dialogFunction}
-          onPress={props.handleAction}
-          style={styles.button}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            margin: 10,
+          }}
+        >
+          <TouchableOpacity>
+            <Entypo name="cross" size={45} color="#DE3C4B" onPress={onCancel} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Feather
+              name="book-open"
+              size={40}
+              color="#3C91E6"
+              onPress={getDefinition}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Entypo
+              name="check"
+              size={40}
+              color="#7CEA9C"
+              onPress={props.handleAction}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -86,7 +112,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5.46,
     elevation: 9,
-    justifyContent: "space-evenly",
+    justifyContent: "center",
+    top: "20%",
   },
   input: {
     color: "#fff",
