@@ -1,12 +1,9 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  Button,
   TextInput,
   Modal,
-  KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
@@ -97,7 +94,7 @@ export default function DialogBox(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#303030",
+    backgroundColor: "#3c3645",
     flex: 0,
     margin: 10,
     padding: 10,
