@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
-import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Word = React.memo(function Word(props) {
   return (
-    <View style={[styles.container, { backgroundColor: "#07A0C3" }]}>
+    <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
       <Text style={styles.name}>{props.name}</Text>
       <Text style={styles.word}>{props.type}</Text>
       <Text style={styles.word}>{props.meaning}</Text>
@@ -13,12 +13,16 @@ const Word = React.memo(function Word(props) {
 });
 
 const HiddenWord = React.memo(function HiddenWord(props) {
+  const onEdit = () => {
+    props.rowMap[props.item.id].closeRow();
+    props.onEdit(props.id);
+  };
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: "#303030" },
-        { alignItems: "flex-end", justifyContent: "center" },
+        { backgroundColor: "#3c3645" },
+        { alignItems: "flex-start", justifyContent: "center" },
       ]}
     >
       <View style={{ borderRadius: 10 }}>
@@ -28,12 +32,7 @@ const HiddenWord = React.memo(function HiddenWord(props) {
           color="#DE3C4B"
           onPress={() => props.onDelete(props.id)}
         />
-        <Entypo
-          name="pencil"
-          size={40}
-          color="#FBF2C0"
-          onPress={() => props.onEdit(props.id)}
-        />
+        <Entypo name="pencil" size={40} color="#FBF2C0" onPress={onEdit} />
       </View>
     </View>
   );

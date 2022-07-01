@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Word, HiddenWord } from "./Word";
@@ -15,18 +15,27 @@ export default function WordList(props) {
         listViewRef={listRef}
         style={styles.container}
         data={props.words}
-        renderItem={({ item }) => (
-          <Word name={item.name} type={item.type} meaning={item.meaning} />
+        keyExtractor={(item) => item.id}
+        renderItem={(rowData, rowMap) => (
+          <Word
+            name={rowData.item.name}
+            type={rowData.item.type}
+            meaning={rowData.item.meaning}
+            rowMap={rowMap}
+            item={rowData.item}
+          />
         )}
-        renderHiddenItem={({ item }) => (
+        renderHiddenItem={(rowData, rowMap) => (
           <HiddenWord
-            id={item.id}
+            item={rowData.item}
+            rowMap={rowMap}
+            id={rowData.item.id}
             onDelete={props.onDelete}
             onEdit={props.onEdit}
           ></HiddenWord>
         )}
-        disableRightSwipe
-        rightOpenValue={-75}
+        disableLeftSwipe
+        leftOpenValue={75}
         recalculateHiddenLayout={true}
         onScroll={(event) => {
           setContentVerticalOffset(event.nativeEvent.contentOffset.y);
@@ -53,9 +62,9 @@ styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    height: 70,
-    width: 70,
-    backgroundColor: "rgba(115, 251, 211, 0.5)",
+    height: 50,
+    width: 50,
+    backgroundColor: "rgba(255, 237, 223, 0.5)",
     alignSelf: "center",
     borderRadius: 100,
     alignItems: "center",
