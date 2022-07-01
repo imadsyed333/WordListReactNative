@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, StatusBar, KeyboardAvoidingView, TouchableOpacity, Platform, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Platform} from 'react-native';
 import WordList from './components/WordList';
 import DialogBox from './components/DialogBox';
 import { useState, useEffect } from 'react';
@@ -8,6 +8,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 import {Feather, Entypo} from '@expo/vector-icons'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -79,7 +80,7 @@ export default function App() {
   const onSearch = (query) => {
     setQuery(query)
     setTempWords(words.filter((a) => {
-      return a.name.startsWith(query)
+      return a.name.toLowerCase().startsWith(query.toLowerCase())
     }))
   }
 
@@ -185,11 +186,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#303030',
+    backgroundColor: '#3c3645',
     paddingHorizontal: 20,
     paddingStart: 20, 
     paddingEnd:20,
-    paddingTop: Platform.OS === 'android'? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
   },
   title: {
     color: "white",
@@ -199,9 +200,9 @@ const styles = StyleSheet.create({
   button: {
     justifyContent:'center',
     alignItems: 'center',
-    backgroundColor: '#73FBD3',
-    height: 70,
-    width: 70,
+    backgroundColor: '#FFEDDF',
+    height: 60,
+    width: 60,
     right:10,
     bottom:10,
     borderRadius: 100,
