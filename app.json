@@ -26,7 +26,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "imad.syed.wordlist"
+      "package": "imad.syed.wordlist",
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"
