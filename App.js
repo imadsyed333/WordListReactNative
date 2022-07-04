@@ -49,11 +49,6 @@ export default function App() {
     saveWords(newWords)
     setWords(newWords)
     
-    if (name.toLowerCase().startsWith(query.toLowerCase())) {
-      let newTempWords = [...tempWords, word]
-      newTempWords.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-      setTempWords(newTempWords)
-    }
     setVisible(false)
     setName("")
     setType("")
@@ -82,21 +77,11 @@ export default function App() {
     }
   }
 
-  const onSearch = (query) => {
-    setQuery(query)
-    setTempWords(words.filter((a) => {
-      return a.name.toLowerCase().startsWith(query.toLowerCase())
-    }))
-  }
-
   const removeWord = (id) => {
     const newData = [...words]
-    const newTempData = [...tempWords]
     const prevIndex = words.findIndex(item => item.id === id)
     newData.splice(prevIndex, 1)
-    newTempData.splice(prevIndex, 1)
     saveWords(newData)
-    setTempWords(newTempData)
     setWords(newData)
   }
 
@@ -113,18 +98,12 @@ export default function App() {
 
   const editWord = () => {
     const newWords = [...words]
-    const newTempWords = [...tempWords]
     const prevIndex = words.findIndex(item => item.id === currId)
     newWords[prevIndex].name = name
     newWords[prevIndex].type = type
     newWords[prevIndex].meaning = meaning
 
-    newTempWords[prevIndex].name = name
-    newTempWords[prevIndex].type = type
-    newTempWords[prevIndex].meaning = meaning
-
     setWords(newWords)
-    setTempWords(newTempWords)
     saveWords(newWords)
     setName("")
     setType("")
@@ -150,7 +129,6 @@ export default function App() {
       uniqueWords.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
       saveWords(uniqueWords)
       setWords(uniqueWords)
-      setTempWords(uniqueWords)
     } catch (error) {
       console.log(error)
     }
@@ -173,6 +151,12 @@ export default function App() {
     StatusBar.setTranslucent(true)
   }, [])
 
+  useEffect(() => {
+    setTempWords(words.filter((a) => {
+      return a.name.toLowerCase().startsWith(query.toLowerCase())
+    }))
+  }, [words, query])
+
   return (
     <SafeAreaView style={styles.container}>
         <View style={{flexDirection:'row'}}>
@@ -189,7 +173,7 @@ export default function App() {
             </TouchableOpacity>
           </View>
         </View>
-        <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
+        <TextInput style={styles.search} placeholder='search for words here' onChangeText={setQuery} value={query}/>
         <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
         <TouchableOpacity style={styles.button} onPress={handleAddPress}>
           <Text style={{fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
