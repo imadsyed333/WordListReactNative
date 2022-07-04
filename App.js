@@ -48,7 +48,12 @@ export default function App() {
     newWords.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     saveWords(newWords)
     setWords(newWords)
-    setTempWords(newWords)
+    
+    if (name.toLowerCase().startsWith(query.toLowerCase())) {
+      let newTempWords = [...tempWords, word]
+      newTempWords.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      setTempWords(newTempWords)
+    }
     setVisible(false)
     setName("")
     setType("")
@@ -86,11 +91,13 @@ export default function App() {
 
   const removeWord = (id) => {
     const newData = [...words]
+    const newTempData = [...tempWords]
     const prevIndex = words.findIndex(item => item.id === id)
     newData.splice(prevIndex, 1)
+    newTempData.splice(prevIndex, 1)
     saveWords(newData)
+    setTempWords(newTempData)
     setWords(newData)
-    setTempWords(newData)
   }
 
   const handleEdit = (id) => {
@@ -106,12 +113,18 @@ export default function App() {
 
   const editWord = () => {
     const newWords = [...words]
+    const newTempWords = [...tempWords]
     const prevIndex = words.findIndex(item => item.id === currId)
     newWords[prevIndex].name = name
     newWords[prevIndex].type = type
     newWords[prevIndex].meaning = meaning
+
+    newTempWords[prevIndex].name = name
+    newTempWords[prevIndex].type = type
+    newTempWords[prevIndex].meaning = meaning
+
     setWords(newWords)
-    setTempWords(newWords)
+    setTempWords(newTempWords)
     saveWords(newWords)
     setName("")
     setType("")
@@ -156,30 +169,32 @@ export default function App() {
 
   useEffect(() => {
     retrieveWords()
+    StatusBar.setBackgroundColor("#3c3645")
+    StatusBar.setTranslucent(true)
   }, [])
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flexDirection:'row'}}>
-        <Text style={styles.title}>WordList</Text>
-        <View style={{flexDirection:'row', justifyContent:'space-around', position:'absolute', right: 10, top: 10}}>
-          <TouchableOpacity onPress={() => importWords()} style={styles.command}>
-            <Feather name="arrow-down-left" size={40} color="#3C91E6" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={exportWords} style={styles.command}>
-            <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={clearWords} style={styles.command}>
-            <Entypo name="cross" size={40} color="#DE3C4B" />
-          </TouchableOpacity>
+        <View style={{flexDirection:'row'}}>
+          <Text style={styles.title}>WordList</Text>
+          <View style={{flexDirection:'row', justifyContent:'space-around', position:'absolute', right: 10, top: 10}}>
+            <TouchableOpacity onPress={() => importWords()} style={styles.command}>
+              <Feather name="arrow-down-left" size={40} color="#3C91E6" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={exportWords} style={styles.command}>
+              <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={clearWords} style={styles.command}>
+              <Entypo name="cross" size={40} color="#DE3C4B" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
-      <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
-      <TouchableOpacity style={styles.button} onPress={handleAddPress}>
-        <Text style={{fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
-      </TouchableOpacity>
-      <DialogBox visible={visible} handleAction={handleDialogFunction} handleCancel={onCancel} name={name} type={type} meaning={meaning} setName={setName} setType={setType} setMeaning={setMeaning} dialogFunction={dialogFunction}/>
+        <TextInput style={styles.search} placeholder='search for words here' onChangeText={onSearch} value={query}/>
+        <WordList words={tempWords} style={styles.list} onDelete={removeWord} onEdit={handleEdit}/>
+        <TouchableOpacity style={styles.button} onPress={handleAddPress}>
+          <Text style={{fontWeight: 'bold', color: '#303030', fontSize: 30}}>+</Text>
+        </TouchableOpacity>
+        <DialogBox visible={visible} handleAction={handleDialogFunction} handleCancel={onCancel} name={name} type={type} meaning={meaning} setName={setName} setType={setType} setMeaning={setMeaning} dialogFunction={dialogFunction}/>
     </SafeAreaView>
   );
 }
@@ -228,5 +243,5 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     alignContent:'center', 
     justifyContent: 'center'
-  }
+  },
 });
