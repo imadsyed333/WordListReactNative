@@ -2,7 +2,7 @@
   "expo": {
     "name": "WordList",
     "slug": "WordList",
-    "version": "5.0.0",
+    "version": "5.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +27,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "imad.syed.wordlist",
-      "versionCode": 300
+      "versionCode": 302
     },
     "web": {
       "favicon": "./assets/favicon.png"
