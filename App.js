@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Platform} from 'react-native';
+import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Platform, Alert} from 'react-native';
 import WordList from './components/WordList';
 import DialogBox from './components/DialogBox';
 import { useState, useEffect } from 'react';
@@ -145,6 +145,26 @@ export default function App() {
     setTempWords([])
   }
 
+  const onPressX = () => {
+    Alert.alert(
+      "Alert",
+      "Are you sure you want to delete all words?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes", 
+          onPress: clearWords
+        }
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  }
+
   useEffect(() => {
     retrieveWords()
     StatusBar.setBackgroundColor("#3c3645")
@@ -168,7 +188,7 @@ export default function App() {
             <TouchableOpacity onPress={exportWords} style={styles.command}>
               <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={clearWords} style={styles.command}>
+            <TouchableOpacity onPress={onPressX} style={styles.command}>
               <Entypo name="cross" size={40} color="#DE3C4B" />
             </TouchableOpacity>
           </View>
