@@ -27,7 +27,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "imad.syed.wordlist",
-      "versionCode": 302
+      "versionCode": 303
     },
     "web": {
       "favicon": "./assets/favicon.png"
