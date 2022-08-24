@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
   TextInput,
   Modal,
   TouchableOpacity,
+  FlatList,
+  Text,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
+import DefinitionPicker from "./DefinitionPicker";
 
 export default function DialogBox(props) {
+  const [defs, setDefs] = useState([]);
+  const [visible, setVisible] = useState(false);
+
   const onCancel = () => {
     props.setName("");
     props.setMeaning("");
@@ -21,8 +27,13 @@ export default function DialogBox(props) {
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        const newMeaning = json[0].meanings[0].definitions[0].definition;
-        props.setMeaning(newMeaning);
+        const defList = [];
+        const meanings = json[0].meanings;
+        for (let i = 0; i < meanings.length; i++) {
+          defList.push(meanings[i].definitions[0].definition);
+        }
+        setDefs(defList);
+        setVisible(true);
       })
       .catch((error) => {
         console.log(error);
@@ -37,6 +48,12 @@ export default function DialogBox(props) {
       transparent={true}
       statusBarTranslucent={true}
     >
+      <DefinitionPicker
+        data={defs}
+        visible={visible}
+        setMeaning={props.setMeaning}
+        setVisible={setVisible}
+      />
       <View style={{ flex: 1, backgroundColor: "#000000AA" }}>
         <View style={styles.container}>
           <TextInput
