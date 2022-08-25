@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Button,
   FlatList,
   Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
 export default function DefinitionPicker(props) {
-  const [definition, setDefinition] = useState("");
   return (
     <Modal
       visible={props.visible}
@@ -18,23 +17,28 @@ export default function DefinitionPicker(props) {
       transparent={true}
       statusBarTranslucent={true}
     >
-      <View style={{ flex: 1, backgroundColor: "#000000AA" }}>
-        <View style={styles.container}>
-          <Text>Choose a definition</Text>
-          <FlatList
-            data={props.data}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  props.setMeaning(item);
-                  props.setVisible(false);
-                }}
-              >
-                <Text style={{ color: "white" }}>{item}</Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          props.setVisible(false);
+        }}
+      >
+        <View style={styles.overlay}></View>
+      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        <Text style={styles.title}>Choose a definition</Text>
+        <FlatList
+          data={props.data}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => {
+                props.setMeaning(item);
+                props.setVisible(false);
+              }}
+            >
+              <Text style={{ color: "white" }}>{item}</Text>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </Modal>
   );
@@ -59,5 +63,23 @@ const styles = StyleSheet.create({
     elevation: 9,
     justifyContent: "center",
     top: "20%",
+  },
+
+  title: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 10,
+  },
+
+  element: {},
+
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#000000AA",
   },
 });
