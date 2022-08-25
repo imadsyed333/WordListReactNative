@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   TextInput,
   Modal,
   TouchableOpacity,
-  FlatList,
-  Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import DefinitionPicker from "./DefinitionPicker";
@@ -28,9 +27,14 @@ export default function DialogBox(props) {
       .then((response) => response.json())
       .then((json) => {
         const defList = [];
-        const meanings = json[0].meanings;
-        for (let i = 0; i < meanings.length; i++) {
-          defList.push(meanings[i].definitions[0].definition);
+        for (let i = 0; i < json.length; i++) {
+          const meanings = json[i].meanings;
+          for (let j = 0; j < meanings.length; j++) {
+            const definitions = meanings[j].definitions;
+            for (let k = 0; k < definitions.length; k++) {
+              defList.push(definitions[k].definition);
+            }
+          }
         }
         setDefs(defList);
         setVisible(true);
@@ -54,62 +58,58 @@ export default function DialogBox(props) {
         setMeaning={props.setMeaning}
         setVisible={setVisible}
       />
-      <View style={{ flex: 1, backgroundColor: "#000000AA" }}>
-        <View style={styles.container}>
-          <TextInput
-            placeholder="Enter name of entry"
-            onChangeText={props.setName}
-            value={props.name}
-            style={styles.input}
-            placeholderTextColor="gray"
-          />
-          <TextInput
-            placeholder="Enter type of entry"
-            onChangeText={props.setType}
-            value={props.type}
-            style={styles.input}
-            placeholderTextColor="gray"
-          />
-          <TextInput
-            placeholder="Enter meaning of entry"
-            onChangeText={props.setMeaning}
-            value={props.meaning}
-            style={styles.input}
-            multiline={true}
-            placeholderTextColor="gray"
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              margin: 10,
-            }}
-          >
-            <TouchableOpacity>
-              <Entypo
-                name="cross"
-                size={45}
-                color="#DE3C4B"
-                onPress={onCancel}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Feather
-                name="book-open"
-                size={40}
-                color="#3C91E6"
-                onPress={getDefinition}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Entypo
-                name="check"
-                size={40}
-                color="#7CEA9C"
-                onPress={props.handleAction}
-              />
-            </TouchableOpacity>
-          </View>
+      <TouchableWithoutFeedback onPress={onCancel}>
+        <View style={styles.overlay}></View>
+      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        <TextInput
+          placeholder="Enter name of entry"
+          onChangeText={props.setName}
+          value={props.name}
+          style={styles.input}
+          placeholderTextColor="gray"
+        />
+        <TextInput
+          placeholder="Enter type of entry"
+          onChangeText={props.setType}
+          value={props.type}
+          style={styles.input}
+          placeholderTextColor="gray"
+        />
+        <TextInput
+          placeholder="Enter meaning of entry"
+          onChangeText={props.setMeaning}
+          value={props.meaning}
+          style={styles.input}
+          multiline={true}
+          placeholderTextColor="gray"
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            margin: 10,
+          }}
+        >
+          <TouchableOpacity>
+            <Entypo name="cross" size={45} color="#DE3C4B" onPress={onCancel} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Feather
+              name="book-open"
+              size={40}
+              color="#3C91E6"
+              onPress={getDefinition}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Entypo
+              name="check"
+              size={40}
+              color="#7CEA9C"
+              onPress={props.handleAction}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -145,5 +145,13 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 10,
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#000000AA",
   },
 });
