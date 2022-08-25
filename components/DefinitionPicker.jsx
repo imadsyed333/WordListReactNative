@@ -35,7 +35,7 @@ export default function DefinitionPicker(props) {
                 props.setVisible(false);
               }}
             >
-              <Text style={{ color: "white" }}>{item}</Text>
+              <Text style={styles.element}>{item}</Text>
             </TouchableOpacity>
           )}
         />
@@ -72,7 +72,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  element: {},
+  element: {
+    padding: 5,
+    margin: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#C490D1",
+    color: "white",
+  },
 
   overlay: {
     position: "absolute",
