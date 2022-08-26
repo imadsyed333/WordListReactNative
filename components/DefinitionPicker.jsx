@@ -27,11 +27,12 @@ export default function DefinitionPicker(props) {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => {
-                props.setMeaning(item);
+                props.setMeaning(item.meaning);
+                props.setType(item.type);
                 props.setVisible(false);
               }}
             >
-              <Text style={styles.element}>{item}</Text>
+              <Text style={styles.element}>{item.meaning}</Text>
             </TouchableOpacity>
           )}
         />
