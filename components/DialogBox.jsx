@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import DefinitionPicker from "./DefinitionPicker";
 import Modal from "react-native-modal";
@@ -52,63 +58,70 @@ export default function DialogBox(props) {
       onBackdropPress={onCancel}
       useNativeDriver
     >
-      <DefinitionPicker
-        data={defs}
-        visible={visible}
-        setMeaning={props.setMeaning}
-        setVisible={setVisible}
-      />
-      <View style={styles.container}>
-        <TextInput
-          placeholder="Enter name of entry"
-          onChangeText={props.setName}
-          value={props.name}
-          style={styles.input}
-          placeholderTextColor="gray"
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
+        <DefinitionPicker
+          data={defs}
+          visible={visible}
+          setMeaning={props.setMeaning}
+          setVisible={setVisible}
         />
-        <TextInput
-          placeholder="Enter type of entry"
-          onChangeText={props.setType}
-          value={props.type}
-          style={styles.input}
-          placeholderTextColor="gray"
-        />
-        <TextInput
-          placeholder="Enter meaning of entry"
-          onChangeText={props.setMeaning}
-          value={props.meaning}
-          style={styles.input}
-          multiline={true}
-          placeholderTextColor="gray"
-        />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            margin: 10,
-          }}
-        >
-          <TouchableOpacity>
-            <Entypo name="cross" size={45} color="#DE3C4B" onPress={onCancel} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Feather
-              name="book-open"
-              size={40}
-              color="#3C91E6"
-              onPress={getDefinition}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Entypo
-              name="check"
-              size={40}
-              color="#7CEA9C"
-              onPress={props.handleAction}
-            />
-          </TouchableOpacity>
+        <View style={styles.container}>
+          <TextInput
+            placeholder="Enter name of entry"
+            onChangeText={props.setName}
+            value={props.name}
+            style={styles.input}
+            placeholderTextColor="gray"
+          />
+          <TextInput
+            placeholder="Enter type of entry"
+            onChangeText={props.setType}
+            value={props.type}
+            style={styles.input}
+            placeholderTextColor="gray"
+          />
+          <TextInput
+            placeholder="Enter meaning of entry"
+            onChangeText={props.setMeaning}
+            value={props.meaning}
+            style={styles.input}
+            multiline={true}
+            placeholderTextColor="gray"
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              margin: 10,
+            }}
+          >
+            <TouchableOpacity>
+              <Entypo
+                name="cross"
+                size={45}
+                color="#DE3C4B"
+                onPress={onCancel}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Feather
+                name="book-open"
+                size={40}
+                color="#3C91E6"
+                onPress={getDefinition}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Entypo
+                name="check"
+                size={40}
+                color="#7CEA9C"
+                onPress={props.handleAction}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

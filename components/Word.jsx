@@ -25,7 +25,7 @@ const HiddenWord = React.memo(function HiddenWord(props) {
         { alignItems: "flex-start", justifyContent: "center" },
       ]}
     >
-      <View style={{ borderRadius: 10 }}>
+      <View style={{ justifyContent: "space-between" }}>
         <FontAwesome
           name="trash-o"
           size={40}
@@ -72,10 +72,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#303030",
     fontSize: 30,
-  },
-  delete_button: {
-    margin: 5,
-    borderRadius: 10,
-    alignSelf: "center",
   },
 });
