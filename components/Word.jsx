@@ -6,8 +6,8 @@ const Word = React.memo(function Word(props) {
   return (
     <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
       <Text style={styles.name}>{props.name}</Text>
-      <Text style={styles.word}>{props.type}</Text>
-      <Text style={styles.word}>{props.meaning}</Text>
+      <Text style={styles.type}>{props.type}</Text>
+      <Text style={styles.meaning}>{props.meaning}</Text>
     </View>
   );
 });
@@ -57,7 +57,14 @@ const styles = StyleSheet.create({
     margin: 10,
     flex: 1,
   },
-  word: {
+
+  type: {
+    paddingTop: 5,
+    color: "#303030",
+  },
+
+  meaning: {
+    paddingTop: 5,
     fontWeight: "bold",
     color: "#303030",
   },
@@ -71,5 +78,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
   },
-  edit_button: {},
 });

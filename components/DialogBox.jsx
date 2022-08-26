@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Modal,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import DefinitionPicker from "./DefinitionPicker";
+import Modal from "react-native-modal";
 
 export default function DialogBox(props) {
   const [defs, setDefs] = useState([]);
@@ -47,10 +41,16 @@ export default function DialogBox(props) {
 
   return (
     <Modal
-      visible={props.visible}
-      animationType="fade"
-      transparent={true}
-      statusBarTranslucent={true}
+      isVisible={props.visible}
+      hasBackdrop
+      backdropColor="black"
+      backdropOpacity={0.7}
+      avoidKeyboard
+      style={{ margin: 0 }}
+      deviceHeight="100%"
+      statusBarTranslucent
+      onBackdropPress={onCancel}
+      useNativeDriver
     >
       <DefinitionPicker
         data={defs}
@@ -58,9 +58,6 @@ export default function DialogBox(props) {
         setMeaning={props.setMeaning}
         setVisible={setVisible}
       />
-      <TouchableWithoutFeedback onPress={onCancel}>
-        <View style={styles.overlay}></View>
-      </TouchableWithoutFeedback>
       <View style={styles.container}>
         <TextInput
           placeholder="Enter name of entry"
@@ -119,39 +116,25 @@ export default function DialogBox(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3c3645",
-    flex: 0,
     margin: 10,
     padding: 10,
-    top: 50,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    alignContent: "stretch",
     shadowOpacity: 0.4,
     shadowRadius: 5.46,
     elevation: 9,
-    justifyContent: "center",
-    top: "20%",
+    top: 0,
   },
   input: {
     color: "#fff",
     fontSize: 15,
     margin: 10,
-    textDecorationLine: "underline",
     textDecorationColor: "gray",
-  },
-  button: {
-    margin: 10,
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "#000000AA",
+    borderBottomColor: "#C490D1",
+    borderBottomWidth: 1,
   },
 });
