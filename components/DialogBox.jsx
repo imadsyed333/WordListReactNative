@@ -31,8 +31,9 @@ export default function DialogBox(props) {
           const meanings = json[i].meanings;
           for (let j = 0; j < meanings.length; j++) {
             const definitions = meanings[j].definitions;
+            const type = meanings[j].partOfSpeech;
             for (let k = 0; k < definitions.length; k++) {
-              defList.push(definitions[k].definition);
+              defList.push({ type: type, meaning: definitions[k].definition });
             }
           }
         }
@@ -63,6 +64,7 @@ export default function DialogBox(props) {
           data={defs}
           visible={visible}
           setMeaning={props.setMeaning}
+          setType={props.setType}
           setVisible={setVisible}
         />
         <View style={styles.container}>
