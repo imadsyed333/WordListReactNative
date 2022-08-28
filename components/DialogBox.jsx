@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import DefinitionPicker from "./DefinitionPicker";
@@ -13,6 +14,8 @@ import Modal from "react-native-modal";
 export default function DialogBox(props) {
   const [defs, setDefs] = useState([]);
   const [visible, setVisible] = useState(false);
+
+  const deviceHeight = Dimensions.get("screen").height;
 
   const onCancel = () => {
     props.setName("");
@@ -42,7 +45,7 @@ export default function DialogBox(props) {
       })
       .catch((error) => {
         console.log(error);
-        alert("Name field is empty, or the word does not exist");
+        alert("Name field is empty");
       });
   };
 
@@ -54,7 +57,7 @@ export default function DialogBox(props) {
       backdropOpacity={0.7}
       avoidKeyboard
       style={{ margin: 0 }}
-      deviceHeight="100%"
+      deviceHeight={deviceHeight}
       statusBarTranslucent
       onBackdropPress={onCancel}
       useNativeDriver

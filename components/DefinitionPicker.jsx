@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 
 export default function DefinitionPicker(props) {
+  const deviceHeight = Dimensions.get("screen").height;
   return (
     <Modal
       isVisible={props.visible}
@@ -17,7 +19,7 @@ export default function DefinitionPicker(props) {
       onBackdropPress={() => {
         props.setVisible(false);
       }}
-      deviceHeight="100%"
+      deviceHeight={deviceHeight}
       useNativeDriver
     >
       <View style={styles.container}>
@@ -44,7 +46,7 @@ export default function DefinitionPicker(props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3c3645",
-    marginVertical: StatusBar.currentHeight + 20,
+    marginVertical: StatusBar.currentHeight + 40,
     marginHorizontal: 10,
     padding: 10,
     borderRadius: 10,

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Platform, Alert} from 'react-native';
+import { StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity, Platform, Alert, SafeAreaView} from 'react-native';
 import WordList from './components/WordList';
 import DialogBox from './components/DialogBox';
 import { useState, useEffect } from 'react';
@@ -8,7 +8,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 import {Feather, Entypo} from '@expo/vector-icons'
-import { SafeAreaView } from 'react-native-safe-area-context';
+// import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -167,8 +167,10 @@ export default function App() {
 
   useEffect(() => {
     retrieveWords()
-    StatusBar.setBackgroundColor("#3c3645")
-    StatusBar.setTranslucent(true)
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor("#3c3645")
+      StatusBar.setTranslucent(true)
+    }
   }, [])
 
   useEffect(() => {
@@ -206,15 +208,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#3c3645',
-    paddingHorizontal: 20,
-    paddingStart: 20, 
-    paddingEnd:20,
-    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0
+    paddingHorizontal: 10,
+    paddingStart: 10,
+    paddingEnd: 10,
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
   },
   title: {
     color: "white",
     fontSize: 40,
     fontWeight: "bold",
+    paddingStart: 10
   },
   button: {
     justifyContent:'center',
@@ -233,7 +236,7 @@ const styles = StyleSheet.create({
     color: 'black',
     opacity: 0.4,
     fontSize: 15,
-    padding: 5,
+    padding: Platform.OS === "android" ? 5: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
     margin:10,

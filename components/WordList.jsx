@@ -16,6 +16,7 @@ export default function WordList(props) {
         style={styles.container}
         data={props.words}
         keyExtractor={(item) => item.id}
+        useAnimatedList={true}
         renderItem={(rowData, rowMap) => (
           <Word
             name={rowData.item.name}
