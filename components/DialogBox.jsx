@@ -15,13 +15,17 @@ export default function DialogBox(props) {
   const [defs, setDefs] = useState([]);
   const [visible, setVisible] = useState(false);
 
+  const [name, setName] = useState(props.name);
+  const [type, setType] = useState(props.type);
+  const [meaning, setMeaning] = useState(props.meaning);
+
   const deviceHeight = Dimensions.get("screen").height;
 
-  const onCancel = () => {
-    props.setName("");
-    props.setMeaning("");
-    props.setType("");
-    props.handleCancel();
+  const close = () => {
+    setName("");
+    setType("");
+    setMeaning("");
+    props.setVisible(false);
   };
 
   const getDefinition = () => {
@@ -59,36 +63,36 @@ export default function DialogBox(props) {
       style={{ margin: 0 }}
       deviceHeight={deviceHeight}
       statusBarTranslucent
-      onBackdropPress={onCancel}
+      onBackdropPress={close}
       useNativeDriver
     >
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100}>
         <DefinitionPicker
           data={defs}
           visible={visible}
-          setMeaning={props.setMeaning}
-          setType={props.setType}
+          setMeaning={setMeaning}
+          setType={setType}
           setVisible={setVisible}
         />
         <View style={styles.container}>
           <TextInput
             placeholder="Enter name of entry"
-            onChangeText={props.setName}
-            value={props.name}
+            onChangeText={setName}
+            value={name}
             style={styles.input}
             placeholderTextColor="gray"
           />
           <TextInput
             placeholder="Enter type of entry"
-            onChangeText={props.setType}
-            value={props.type}
+            onChangeText={setType}
+            value={type}
             style={styles.input}
             placeholderTextColor="gray"
           />
           <TextInput
             placeholder="Enter meaning of entry"
-            onChangeText={props.setMeaning}
-            value={props.meaning}
+            onChangeText={setMeaning}
+            value={meaning}
             style={styles.input}
             multiline={true}
             placeholderTextColor="gray"
@@ -101,12 +105,7 @@ export default function DialogBox(props) {
             }}
           >
             <TouchableOpacity>
-              <Entypo
-                name="cross"
-                size={45}
-                color="#DE3C4B"
-                onPress={onCancel}
-              />
+              <Entypo name="cross" size={45} color="#DE3C4B" onPress={close} />
             </TouchableOpacity>
             <TouchableOpacity>
               <Feather
@@ -121,7 +120,10 @@ export default function DialogBox(props) {
                 name="check"
                 size={40}
                 color="#7CEA9C"
-                onPress={props.handleAction}
+                onPress={() => {
+                  props.action(name, type, meaning);
+                  close();
+                }}
               />
             </TouchableOpacity>
           </View>

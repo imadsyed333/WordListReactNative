@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
+import DialogBox from "./DialogBox";
 
 const Word = React.memo(function Word(props) {
   return (
@@ -13,10 +14,24 @@ const Word = React.memo(function Word(props) {
 });
 
 const HiddenWord = React.memo(function HiddenWord(props) {
-  const onEdit = () => {
-    props.rowMap[props.item.id].closeRow();
-    props.onEdit(props.id);
+  const [visible, setVisible] = useState(false);
+
+  const deleteWord = () => {
+    const newWords = [...props.words];
+    const prevIndex = props.words.findIndex((item) => item.id === props.id);
+    newWords.splice(prevIndex, 1);
+    props.setWords(newWords);
   };
+
+  const editWord = (name, type, meaning) => {
+    const newWords = [...props.words];
+    const prevIndex = props.words.findIndex((item) => item.id === props.id);
+    newWords[prevIndex].name = name;
+    newWords[prevIndex].type = type;
+    newWords[prevIndex].meaning = meaning;
+    props.setWords(newWords);
+  };
+
   return (
     <View
       style={[
@@ -30,10 +45,20 @@ const HiddenWord = React.memo(function HiddenWord(props) {
           name="trash-o"
           size={40}
           color="#DE3C4B"
-          onPress={() => props.onDelete(props.id)}
+          onPress={() => {
+            deleteWord();
+          }}
         />
         <Entypo name="pencil" size={40} color="#FBF2C0" onPress={onEdit} />
       </View>
+      <DialogBox
+        visible={visible}
+        setVisible={setVisible}
+        action={editWord}
+        name={props.item.name}
+        type={props.item.type}
+        meaning={props.item.meaning}
+      />
     </View>
   );
 });

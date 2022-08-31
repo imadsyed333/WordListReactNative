@@ -14,7 +14,7 @@ export default function WordList(props) {
       <SwipeListView
         listViewRef={listRef}
         style={styles.container}
-        data={props.words}
+        data={props.tempWords}
         keyExtractor={(item) => item.id}
         useAnimatedList={true}
         renderItem={(rowData, rowMap) => (
@@ -31,8 +31,8 @@ export default function WordList(props) {
             item={rowData.item}
             rowMap={rowMap}
             id={rowData.item.id}
-            onDelete={props.onDelete}
-            onEdit={props.onEdit}
+            words={props.words}
+            setWords={props.setWords}
           ></HiddenWord>
         )}
         disableLeftSwipe
@@ -56,7 +56,7 @@ export default function WordList(props) {
     </View>
   );
 }
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignContent: "stretch",
