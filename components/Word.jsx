@@ -49,7 +49,7 @@ const HiddenWord = React.memo(function HiddenWord(props) {
             deleteWord();
           }}
         />
-        <Entypo name="pencil" size={40} color="#FBF2C0" onPress={onEdit} />
+        <Entypo name="pencil" size={40} color="#FBF2C0" onPress={() => {setVisible(true)}} />
       </View>
       <DialogBox
         visible={visible}

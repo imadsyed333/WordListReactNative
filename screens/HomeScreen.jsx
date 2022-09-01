@@ -43,7 +43,6 @@ export default function HomeScreen(props) {
 
   useEffect(() => {
     sortWords();
-    saveWords(words);
   }, [words]);
 
   const retrieveWords = async () => {
@@ -52,7 +51,7 @@ export default function HomeScreen(props) {
       if (jsonValue !== null) {
         const newWords = JSON.parse(jsonValue);
         setWords(newWords);
-        // setTempWords(newWords);
+        setTempWords(newWords);
       }
     } catch (error) {
       alert("no words?");
