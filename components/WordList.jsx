@@ -24,6 +24,7 @@ export default function WordList(props) {
             meaning={rowData.item.meaning}
             rowMap={rowMap}
             item={rowData.item}
+            navigation={props.navigation}
           />
         )}
         renderHiddenItem={(rowData, rowMap) => (

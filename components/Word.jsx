@@ -1,14 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Word = React.memo(function Word(props) {
   return (
-    <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
-      <Text style={styles.name}>{props.name}</Text>
-      <Text style={styles.type}>{props.type}</Text>
-      <Text style={styles.meaning}>{props.meaning}</Text>
-    </View>
+    <TouchableWithoutFeedback
+      onPress={() =>
+        props.navigation.navigate("Word", {
+          name: props.name,
+          type: props.type,
+          meaning: props.meaning,
+        })
+      }
+    >
+      <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
+        <Text style={styles.name}>{props.name}</Text>
+        <Text style={styles.type}>{props.type}</Text>
+        <Text style={styles.meaning}>{props.meaning}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 });
 
