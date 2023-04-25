@@ -49,6 +49,23 @@ export default function DialogBox(props) {
       });
   };
 
+  const definitionButton = () => {
+    if (props.name) {
+      return (
+        <TouchableOpacity>
+          <Feather
+            name="book-open"
+            size={40}
+            color="#3C91E6"
+            onPress={getDefinition}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   return (
     <Modal
       isVisible={props.visible}
@@ -108,14 +125,7 @@ export default function DialogBox(props) {
                 onPress={onCancel}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Feather
-                name="book-open"
-                size={40}
-                color="#3C91E6"
-                onPress={getDefinition}
-              />
-            </TouchableOpacity>
+            {definitionButton()}
             <TouchableOpacity>
               <Entypo
                 name="check"
