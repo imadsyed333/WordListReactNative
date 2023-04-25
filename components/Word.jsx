@@ -11,13 +11,13 @@ import { FontAwesome, Entypo } from "@expo/vector-icons";
 const Word = React.memo(function Word(props) {
   return (
     <TouchableWithoutFeedback
-      onPress={() =>
-        props.navigation.navigate("Word", {
-          name: props.name,
-          type: props.type,
-          meaning: props.meaning,
-        })
-      }
+    // onPress={() =>
+    //   props.navigation.navigate("Word", {
+    //     name: props.name,
+    //     type: props.type,
+    //     meaning: props.meaning,
+    //   })
+    // }
     >
       <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
         <Text style={styles.name}>{props.name}</Text>
