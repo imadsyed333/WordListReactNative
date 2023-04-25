@@ -123,10 +123,12 @@ export default function HomeScreen(props) {
   };
 
   const handleDialogFunction = () => {
-    if (dialogFunction === "Add Word") {
-      onAdd();
-    } else if (dialogFunction === "Update Word") {
-      editWord();
+    if (name) {
+      if (dialogFunction === "Add Word") {
+        onAdd();
+      } else if (dialogFunction === "Update Word") {
+        editWord();
+      }
     }
   };
 
