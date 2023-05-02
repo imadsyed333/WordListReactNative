@@ -17,6 +17,7 @@ export default function WordList(props) {
         data={props.words}
         keyExtractor={(item) => item.id}
         useAnimatedList={true}
+        closeOnRowPress
         renderItem={(rowData, rowMap) => (
           <Word
             name={rowData.item.name}
@@ -24,6 +25,7 @@ export default function WordList(props) {
             meaning={rowData.item.meaning}
             rowMap={rowMap}
             item={rowData.item}
+            id={rowData.item.id}
             navigation={props.navigation}
           />
         )}
