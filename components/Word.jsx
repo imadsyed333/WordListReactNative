@@ -9,16 +9,13 @@ import React from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Word = React.memo(function Word(props) {
+  const handleTap = () => {
+    if (props.rowMap[props.id]) {
+      props.rowMap[props.id].manuallySwipeRow(75);
+    }
+  };
   return (
-    <TouchableWithoutFeedback
-    // onPress={() =>
-    //   props.navigation.navigate("Word", {
-    //     name: props.name,
-    //     type: props.type,
-    //     meaning: props.meaning,
-    //   })
-    // }
-    >
+    <TouchableWithoutFeedback onPress={handleTap}>
       <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.type}>{props.type}</Text>
@@ -30,7 +27,7 @@ const Word = React.memo(function Word(props) {
 
 const HiddenWord = React.memo(function HiddenWord(props) {
   const onEdit = () => {
-    props.rowMap[props.item.id].closeRow();
+    props.rowMap[props.id].closeRow();
     props.onEdit(props.id);
   };
   return (
