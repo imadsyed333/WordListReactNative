@@ -25,6 +25,8 @@ export default function HomeScreen(props) {
   const [tempWords, setTempWords] = useState([]);
   const [query, setQuery] = useState("");
 
+  const [stateStack, setStateStack] = useState([]);
+
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [meaning, setMeaning] = useState("");
@@ -89,11 +91,30 @@ export default function HomeScreen(props) {
   };
 
   const removeWord = (id) => {
-    const newData = [...words];
-    const prevIndex = words.findIndex((item) => item.id === id);
-    newData.splice(prevIndex, 1);
-    saveWords(newData);
-    setWords(newData);
+    Alert.alert(
+      "Delete Word",
+      "Are you sure you want to delete this word?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete Word",
+          onPress: () => {
+            const newData = [...words];
+            setStateStack([...stateStack, [...words]]);
+            const prevIndex = words.findIndex((item) => item.id === id);
+            newData.splice(prevIndex, 1);
+            saveWords(newData);
+            setWords(newData);
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
   };
 
   const handleEdit = (id) => {
@@ -182,6 +203,37 @@ export default function HomeScreen(props) {
     );
   };
 
+  const undoAction = () => {
+    const temp = [...stateStack];
+    const new_state = temp.pop();
+    setWords(new_state);
+    saveWords(new_state);
+    setStateStack(temp);
+  };
+
+  const undoButton = () => {
+    if (stateStack.length) {
+      return (
+        <TouchableOpacity
+          style={[styles.button, { bottom: 80 }]}
+          onPress={undoAction}
+        >
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "#303030",
+              fontSize: 20,
+            }}
+          >
+            Undo
+          </Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   useEffect(() => {
     retrieveWords();
     if (Platform.OS === "android") {
@@ -238,6 +290,7 @@ export default function HomeScreen(props) {
         onEdit={handleEdit}
         navigation={props.navigation}
       />
+      {undoButton()}
       <TouchableOpacity style={styles.button} onPress={handleAddPress}>
         <Text style={{ fontWeight: "bold", color: "#303030", fontSize: 30 }}>
           +
