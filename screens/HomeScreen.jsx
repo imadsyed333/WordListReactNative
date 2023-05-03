@@ -251,6 +251,8 @@ export default function HomeScreen(props) {
   }, [words, query]);
 
   return (
+    <SideMenu>
+
     <SafeAreaView style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.title}>WordList</Text>
@@ -309,6 +311,7 @@ export default function HomeScreen(props) {
         dialogFunction={dialogFunction}
       />
     </SafeAreaView>
+    </SideMenu>
   );
 }
 const styles = StyleSheet.create({
