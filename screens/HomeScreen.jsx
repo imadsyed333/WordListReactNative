@@ -18,6 +18,8 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Feather, Entypo } from "@expo/vector-icons";
+import SideMenu from "@chakrahq/react-native-side-menu";
+import Menu from "../components/Menu";
 
 export default function HomeScreen(props) {
   const [visible, setVisible] = useState(false);
@@ -130,6 +132,7 @@ export default function HomeScreen(props) {
 
   const editWord = () => {
     const newWords = [...words];
+    setStateStack([...stateStack, [...words]]);
     const prevIndex = words.findIndex((item) => item.id === currId);
     newWords[prevIndex].name = name;
     newWords[prevIndex].type = type;
@@ -204,6 +207,7 @@ export default function HomeScreen(props) {
   };
 
   const undoAction = () => {
+    console.log(stateStack);
     const temp = [...stateStack];
     const new_state = temp.pop();
     setWords(new_state);
@@ -250,68 +254,79 @@ export default function HomeScreen(props) {
     );
   }, [words, query]);
 
-  return (
-    <SideMenu>
+  const menu = (
+    <Menu
+      importWords={importWords}
+      exportWords={exportWords}
+      clearWords={onPressX}
+    />
+  );
 
+  return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.title}>WordList</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            position: "absolute",
-            right: 10,
-            top: 10,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => importWords()}
-            style={styles.command}
-          >
-            <Feather name="arrow-down-left" size={40} color="#3C91E6" />
+      <SideMenu menu={menu}>
+        <View style={{ flex: 1, backgroundColor: "#3c3645" }}>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.title}>WordList</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                position: "absolute",
+                right: 10,
+                top: 10,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => importWords()}
+                style={styles.command}
+              >
+                <Feather name="arrow-down-left" size={40} color="#3C91E6" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={exportWords} style={styles.command}>
+                <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onPressX} style={styles.command}>
+                <Entypo name="cross" size={40} color="#DE3C4B" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TextInput
+            style={styles.search}
+            placeholder="Search your WordList"
+            onChangeText={setQuery}
+            value={query}
+          />
+          <WordList
+            words={tempWords}
+            style={styles.list}
+            onDelete={removeWord}
+            onEdit={handleEdit}
+            navigation={props.navigation}
+          />
+          {undoButton()}
+          <TouchableOpacity style={styles.button} onPress={handleAddPress}>
+            <Text
+              style={{ fontWeight: "bold", color: "#303030", fontSize: 30 }}
+            >
+              +
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={exportWords} style={styles.command}>
-            <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onPressX} style={styles.command}>
-            <Entypo name="cross" size={40} color="#DE3C4B" />
-          </TouchableOpacity>
+          <DialogBox
+            visible={visible}
+            handleAction={handleDialogFunction}
+            handleCancel={onCancel}
+            name={name}
+            type={type}
+            meaning={meaning}
+            setName={setName}
+            setType={setType}
+            setMeaning={setMeaning}
+            dialogFunction={dialogFunction}
+          />
         </View>
-      </View>
-      <TextInput
-        style={styles.search}
-        placeholder="search for words here"
-        onChangeText={setQuery}
-        value={query}
-      />
-      <WordList
-        words={tempWords}
-        style={styles.list}
-        onDelete={removeWord}
-        onEdit={handleEdit}
-        navigation={props.navigation}
-      />
-      {undoButton()}
-      <TouchableOpacity style={styles.button} onPress={handleAddPress}>
-        <Text style={{ fontWeight: "bold", color: "#303030", fontSize: 30 }}>
-          +
-        </Text>
-      </TouchableOpacity>
-      <DialogBox
-        visible={visible}
-        handleAction={handleDialogFunction}
-        handleCancel={onCancel}
-        name={name}
-        type={type}
-        meaning={meaning}
-        setName={setName}
-        setType={setType}
-        setMeaning={setMeaning}
-        dialogFunction={dialogFunction}
-      />
+      </SideMenu>
     </SafeAreaView>
-    </SideMenu>
   );
 }
 const styles = StyleSheet.create({
