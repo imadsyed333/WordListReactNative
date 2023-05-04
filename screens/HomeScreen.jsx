@@ -27,6 +27,8 @@ export default function HomeScreen(props) {
   const [tempWords, setTempWords] = useState([]);
   const [query, setQuery] = useState("");
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const [stateStack, setStateStack] = useState([]);
 
   const [name, setName] = useState("");
@@ -264,9 +266,15 @@ export default function HomeScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SideMenu menu={menu}>
+      <SideMenu
+        menu={menu}
+        isOpen={menuOpen}
+        onMove={() => {
+          setMenuOpen(!menuOpen);
+        }}
+      >
         <View style={{ flex: 1, backgroundColor: "#3c3645" }}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row-reverse" }}>
             <Text style={styles.title}>WordList</Text>
             <View
               style={{
@@ -278,16 +286,12 @@ export default function HomeScreen(props) {
               }}
             >
               <TouchableOpacity
-                onPress={() => importWords()}
                 style={styles.command}
+                onPress={() => {
+                  setMenuOpen(!menuOpen);
+                }}
               >
-                <Feather name="arrow-down-left" size={40} color="#3C91E6" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={exportWords} style={styles.command}>
-                <Feather name="arrow-up-right" size={40} color="#7CEA9C" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={onPressX} style={styles.command}>
-                <Entypo name="cross" size={40} color="#DE3C4B" />
+                <Feather name="menu" size={40} color="white" />
               </TouchableOpacity>
             </View>
           </View>
