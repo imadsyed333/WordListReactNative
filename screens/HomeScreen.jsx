@@ -269,9 +269,7 @@ export default function HomeScreen(props) {
       <SideMenu
         menu={menu}
         isOpen={menuOpen}
-        onMove={() => {
-          setMenuOpen(!menuOpen);
-        }}
+        onChange={() => setMenuOpen(!menuOpen)}
       >
         <View style={{ flex: 1, backgroundColor: "#3c3645" }}>
           <View style={{ flexDirection: "row-reverse" }}>
@@ -288,6 +286,7 @@ export default function HomeScreen(props) {
               <TouchableOpacity
                 style={styles.command}
                 onPress={() => {
+                  console.log(menuOpen);
                   setMenuOpen(!menuOpen);
                 }}
               >
