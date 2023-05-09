@@ -270,6 +270,7 @@ export default function HomeScreen(props) {
         menu={menu}
         isOpen={menuOpen}
         onChange={() => setMenuOpen(!menuOpen)}
+        disableGestures
       >
         <View style={{ flex: 1, backgroundColor: "#3c3645" }}>
           <View style={{ flexDirection: "row-reverse" }}>
@@ -286,7 +287,6 @@ export default function HomeScreen(props) {
               <TouchableOpacity
                 style={styles.command}
                 onPress={() => {
-                  console.log(menuOpen);
                   setMenuOpen(!menuOpen);
                 }}
               >
