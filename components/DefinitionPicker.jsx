@@ -12,6 +12,14 @@ import Modal from "react-native-modal";
 
 export default function DefinitionPicker(props) {
   const deviceHeight = Dimensions.get("screen").height;
+
+  const titleCard = () => {
+    if (props.data.length) {
+      return <Text style={styles.title}>Choose a definition</Text>;
+    } else {
+      return <Text style={styles.title}>No definitions found</Text>;
+    }
+  };
   return (
     <Modal
       isVisible={props.visible}
@@ -23,7 +31,7 @@ export default function DefinitionPicker(props) {
       useNativeDriver
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Choose a definition</Text>
+        {titleCard()}
         <FlatList
           data={props.data}
           renderItem={({ item }) => (
