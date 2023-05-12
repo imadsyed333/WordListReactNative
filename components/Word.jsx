@@ -5,17 +5,27 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 
 const Word = React.memo(function Word(props) {
-  const handleTap = () => {
+  const [open, setOpen] = useState(false);
+
+  const toggleRow = () => {
     if (props.rowMap[props.id]) {
-      props.rowMap[props.id].manuallySwipeRow(75);
+      if (open) {
+        props.rowMap[props.id].manuallySwipeRow(0);
+        setOpen(false);
+      } else {
+        props.rowMap[props.id].manuallySwipeRow(75);
+        setOpen(true);
+      }
     }
   };
+
+  const handleTap = () => {};
   return (
-    <TouchableWithoutFeedback onPress={handleTap}>
+    <TouchableWithoutFeedback onPress={toggleRow}>
       <View style={[styles.container, { backgroundColor: "#C490D1" }]}>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.type}>{props.type}</Text>
